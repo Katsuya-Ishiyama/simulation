@@ -15,47 +15,80 @@ class Strategy():
 
     def __init__(self, n):
 
+        _success_probability = _generate_success_probability(n)
+        _strategy = {i: p for i, p in enumerate(_success_probability, 1)}
+
         self._n = n
-
-        _success_prob = random.sample(n)
-        _strategy = {(i + 1): p for i, p in enumerate(_success_prob)}
-
         self.strategy = _strategy
-        self.stock_of_strategy = _strategy.keys()
+        self.stock_of_strategy = list(_strategy.keys())
         self.tried_strategy = []
         self.current_strategy = None
-
-    def _add_chosen_strategy(self, x):
-
-        self.choose_strategy.append(x)
-
-    def _delete_strategy_from_stock(self, x):
-
-        self.stock_of_strategy.pop(x)
+        self.previous_strategy = None
+        self.count_same_strategy = 0
+        self._result_of_trial = None
 
     def choose_strategy(self):
 
-        # TODO: 手持ちの戦略を使い果たした場合の例外処理を書く
         if not self.stock_of_strategy:
-            raise
+            raise ValueError('There is no strategy in stock.')
 
         _chosen_id = random.choice(self.stock_of_strategy, 1)[0]
 
+        self.previous_strategy = self.current_strategy
         self.current_strategy = _chosen_id
-        self._delete_strategy_from_stock(_chosen_id)
-        self._add_chosen_strategy(_chosen_id)
+        self.count_same_strategy = 0
+        self.stock_of_strategy.remove(_chosen_id)
+
+        _chosen_strategy = {
+            'chosen_strategy': _chosen_id,
+            'success_probability': self._get_success_probability()
+        }
+
+        return _chosen_strategy
+
+    def _get_success_probability(self):
+
+        return self.strategy[self.current_strategy]
 
     def try_strategy(self):
 
-        # TODO: 戦略に挑戦した結果を返す処理を書く
-        pass
+        if not self.current_strategy:
+            raise ValueError('No strategy is chosen.')
+
+        self.tried_strategy.append(self.current_strategy)
+
+        self._result_of_trial = _get_trial_result(
+            p=self._get_success_probability()
+        )
+
+        if self.current_strategy == self.previous_strategy:
+            self.count_same_strategy += 1
+
+        return self._result_of_trial
+
+    def get_trial_log(self):
+
+        if self._result_of_trial:
+            raise ValueError('Any strategies have not been tried.')
+
+        _result = dict(
+            current_strategy=self.current_strategy,
+            count_same_strategy=self.count_same_strategy,
+            success_probability=self._get_success_probability,
+            result=self._result_of_trial
+        )
+
+        return _result
 
 
-if __name__ == '__main__':
+def _get_trial_result(p):
 
-    strategy = Strategy(5)
+    _trial_result = random.choice([0, 1], size=1, p=[1 - p, p])
 
-    for i in range(10):
-        strategy.choose_strategy()
-        print strategy.chosen_strategy_id
+    return _trial_result[0]
+
+
+def _generate_success_probability(size):
+
+    return random.sample(size)
 
