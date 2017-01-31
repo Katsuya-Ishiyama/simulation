@@ -45,6 +45,12 @@ class SimulationLogger(object):
                 writer.writerow(self._csv_header)
             writer.writerow(self.parameters.values())
 
+    def _output_as_json(self):
+
+        self._append_common_parameters_to_parameters()
+        with open(self.logfile, 'a') as f:
+            f.write(json.dumps(self.parameters))
+
     def logging(self, log):
 
         _log = log.copy()
@@ -52,6 +58,10 @@ class SimulationLogger(object):
 
         if self.filetype == 'csv':
             self._output_as_csv()
+        elif self.filetype == 'log':
+            self._output_as_json()
+        else:
+            raise TypeError('{0} cannot be handled.'.format(self.logfile))
 
         self.common_parameters['logged_num'] += 1
         self.parameters = dict()
