@@ -31,10 +31,14 @@ class SimulationLogger(object):
         for k, v in kwargs.items():
             self.parameters.setdefault(k, v)
 
-    def _output_as_csv(self):
-        # collections の ChainMap を使うほうが早いか
+    def _append_common_parameters_to_parameters(self):
+
         for k, v in self.common_parameters.items():
             self.parameters.setdefault(k, v)
+
+    def _output_as_csv(self):
+        
+        self._append_common_parameters_to_parameters()
 
         if not self.common_parameters['logged_num']:
             self._csv_header = self.parameters.keys()
