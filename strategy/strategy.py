@@ -71,19 +71,6 @@ class Strategy():
 
         return self._result_of_trial
 
-    def get_trial_log(self):
-
-        if self._result_of_trial:
-            raise ValueError('Any strategies have not been tried.')
-
-        _result = dict(
-            current_strategy=self.current_strategy,
-            count_same_strategy=self.count_same_strategy,
-            success_probability=self._get_success_probability,
-            result=self._result_of_trial
-        )
-
-        return _result
 
 
 def _get_trial_result(p):
