@@ -7,7 +7,7 @@ import datetime
 
 class SimulationLogger(object):
 
-    def __init___(self, file):
+    def __init__(self, file):
 
         if os.path.exists(file):
             raise ValueError('{0} is already exists.')
@@ -30,13 +30,13 @@ class SimulationLogger(object):
         for k, v in kwargs.items():
             self.parameters.setdefault(k, v)
 
-    def _append_common_parameters_to_parameters(self):
+    def append_common_parameters_to_parameters(self):
 
         for k, v in self.common_parameters.items():
             self.parameters.setdefault(k, v)
 
-    def _output_as_csv(self):
-        
+    def output_as_csv(self):
+
         self._append_common_parameters_to_parameters()
 
         if not self.common_parameters['logged_num']:
@@ -48,7 +48,7 @@ class SimulationLogger(object):
                 writer.writerow(self._csv_header)
             writer.writerow(self.parameters.values())
 
-    def _output_as_json(self):
+    def output_as_json(self):
 
         self._append_common_parameters_to_parameters()
         with open(self.logfile, 'a') as f:
@@ -70,7 +70,7 @@ class SimulationLogger(object):
         self.parameters = dict()  # initialize
 
 
-def _check_type_of_log_file(file):
+def check_type_of_log_file(file):
 
     if re.match(r'.+\.csv$', file):
         filetype = 'csv'
