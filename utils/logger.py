@@ -12,7 +12,7 @@ class SimulationLogger(object):
         if os.path.exists(file):
             raise ValueError('{0} is already exists.')
 
-        self._filetype = _check_type_of_log_file(file)
+        self._filetype = check_type_of_log_file(file)
         self.logfile = file
         self.common_parameters = dict(
             simulation_date=datetime.datetime.now(),
@@ -37,7 +37,7 @@ class SimulationLogger(object):
 
     def output_as_csv(self):
 
-        self._append_common_parameters_to_parameters()
+        self.append_common_parameters_to_parameters()
 
         if not self.common_parameters['logged_num']:
             self._csv_header = self.parameters.keys()
@@ -50,7 +50,7 @@ class SimulationLogger(object):
 
     def output_as_json(self):
 
-        self._append_common_parameters_to_parameters()
+        self.append_common_parameters_to_parameters()
         with open(self.logfile, 'a') as f:
             f.write(json.dumps(self.parameters))
 
@@ -60,9 +60,9 @@ class SimulationLogger(object):
         _log.update(self.common_parameters)
 
         if self.filetype == 'csv':
-            self._output_as_csv()
+            self.output_as_csv()
         elif self.filetype == 'log':
-            self._output_as_json()
+            self.output_as_json()
         else:
             raise TypeError('{0} cannot be handled.'.format(self.logfile))
 
