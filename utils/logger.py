@@ -9,11 +9,10 @@ class SimulationLogger(object):
 
     def __init___(self, file):
 
+        if os.path.exists(file):
+            raise ValueError('{0} is already exists.')
+
         self._filetype = _check_type_of_log_file(file)
-
-        # TODO: file で指定されたファイルがすでに存在している場合は
-        #       エラーを返す
-
         self.logfile = file
         self.common_parameters = dict(
             simulation_date=datetime.datetime.now(),
@@ -68,7 +67,7 @@ class SimulationLogger(object):
             raise TypeError('{0} cannot be handled.'.format(self.logfile))
 
         self.common_parameters['logged_num'] += 1
-        self.parameters = dict()
+        self.parameters = dict()  # initialize
 
 
 def _check_type_of_log_file(file):
@@ -76,7 +75,7 @@ def _check_type_of_log_file(file):
     if re.match(r'.+\.csv$', file):
         filetype = 'csv'
     elif re.match(r'.+\.log$', file):
-        filetype = 'json'
+        filetype = 'log'
     else:
         _extension = re.findall(r'+.\.(\s+)$', file)
         ValueError('{0} cannot be handled.', _extension[0])
