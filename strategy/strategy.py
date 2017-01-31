@@ -11,6 +11,11 @@ Created on Fri Jan 27 18:31:59 2017
 from numpy import random
 
 
+# Definition of module level constants
+SUCCESS_CODE = 1
+FAILUR_CODE = 0
+
+
 class Strategy():
 
     def __init__(self, n):
