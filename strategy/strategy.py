@@ -13,7 +13,7 @@ from numpy import random
 
 # Definition of module level constants
 SUCCESS_CODE = 1
-FAILUR_CODE = 0
+FAILURE_CODE = 0
 
 
 class Strategy():
@@ -88,7 +88,7 @@ class Strategy():
 
 def _get_trial_result(p):
 
-    _trial_result = random.choice([0, 1], size=1, p=[1 - p, p])
+    _trial_result = random.choice([FAILURE_CODE, SUCCESS_CODE], size=1, p=[1 - p, p])
 
     return _trial_result[0]
 
