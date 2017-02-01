@@ -54,10 +54,7 @@ class SimulationLogger(object):
         with open(self.logfile, 'a') as f:
             f.write(json.dumps(self.parameters))
 
-    def logging(self, log):
-
-        _log = log.copy()
-        _log.update(self.common_parameters)
+    def logging(self):
 
         if self.filetype == 'csv':
             self.output_as_csv()
