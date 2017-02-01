@@ -6,9 +6,12 @@ from strategy import Strategy
 from utils import logger
 
 
+LOGFILE = 'logfile path'
+
+
 def simulate_stick_to_one_strategy(sim, n):
 
-    log = logger.SimulationLogger()
+    log = logger.SimulationLogger(LOGFILE)
 
     for sim_num in range(1, sim+1):
         strategy = Strategy(n)
@@ -34,17 +37,22 @@ def simulate_stick_to_one_strategy(sim, n):
 
 def simulation_change_strategy_if_fail(sim, n):
 
+    log = logger.SimulationLogger(LOGFILE)
+
     for sim_num in range(1, sim+1):
         strategy = Strategy(n)
+
+        log.set_common_paramerets(sim_num=sim_num)
+
         for trial_num in range(1, n+1):
-            strategy.choose_strategy()
+            current_strategy = strategy.choose_strategy()
             is_success = strategy.try_strategy()
 
-            trial_log = strategy.get_trial_log()
-            trial_log['simulation_num'] = sim_num
-            trial_log['trial_num'] = trial_num
-
-            # TODO: 結果ログを書き込む処理を作る
+            log.set_parameters(
+                trial_num=trial_num,
+                strategy=current_strategy,
+                result=is_success
+            )
 
             if is_success:
                 break
