@@ -12,17 +12,22 @@ class LoggerTestCase(unittest.TestCase):
 
     def test_set_common_parameters(self):
         preseted_params = self._logger.common_parameters
-        self._logger.set_common_parameters(a=1, b=2)
-        expected_params = dict(ChainMap(preseted_params, dict(a=1, b=2)))
+        self._logger.set_common_parameters(a=1)
+        self._logger.set_common_parameters(b=2, c=3)
+        expected_params = dict(ChainMap(preseted_params, dict(a=1, b=2, c=3)))
         assertEqual(expected_params, self._logger.common_parameters)
 
     def test_set_parameters(self):
-        self._logger.set_parameters(a=1, b=2, c=3)
+        self._logger.set_parameters(a=1)
+        self._logger.set_parameters(b=2, c=3)
         expected_params = dict(a=1, b=2, c=3)
         assertEqual(expected_params, self._logger.parameters)
 
     def test_append_common_parameters_to_parameters(self):
-        pass
+        _common_params = self._logger.common_parameters
+        self._logger.set_parameters(a=1, b=2)
+        self._logger.append_common_parameters_to_parameters()
+        expected_params = dict(ChainMap(_common_params, dict(a=1, b=2)))
 
     def test_output_as_csv(self):
         pass
