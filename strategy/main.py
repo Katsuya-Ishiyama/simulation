@@ -53,7 +53,11 @@ def simulation_change_strategy_if_fail(sim, n):
                 strategy=current_strategy,
                 result=is_success
             )
+            log.logging()
 
             if is_success:
                 break
 
+def main():
+
+    pass

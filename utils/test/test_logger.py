@@ -28,6 +28,7 @@ class LoggerTestCase(unittest.TestCase):
         self._logger.set_parameters(a=1, b=2)
         self._logger.append_common_parameters_to_parameters()
         expected_params = dict(ChainMap(_common_params, dict(a=1, b=2)))
+        assertEqual(expected_params, self._logger.parameters)
 
     def test_output_as_csv(self):
         pass
