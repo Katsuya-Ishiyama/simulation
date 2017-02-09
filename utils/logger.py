@@ -20,12 +20,12 @@ class SimulationLogger(object):
         )
         self.parameters = dict()
 
-    def set_common_parameters(self, **kwargs):
+    def add_common_parameters(self, **kwargs):
 
         for k, v in kwargs.items():
             self.common_parameters.setdefault(k, v)
 
-    def set_parameters(self, **kwargs):
+    def add_parameters(self, **kwargs):
 
         for k, v in kwargs.items():
             self.parameters.setdefault(k, v)

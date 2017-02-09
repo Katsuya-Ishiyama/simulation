@@ -17,7 +17,7 @@ def simulate_stick_to_one_strategy(sim, n):
         strategy = Strategy(n)
         current_strategy = strategy.choose_strategy()
 
-        log.set_common_parameters(
+        log.add_common_parameters(
             strategy=current_strategy,
             sim_num=sim_num
         )
@@ -25,7 +25,7 @@ def simulate_stick_to_one_strategy(sim, n):
         for trial_num in range(1, n+1):
             is_success = strategy.try_strategy()
 
-            log.set_parameters(
+            log.add_parameters(
                 trial_num=trial_num,
                 result=is_success
             )
@@ -42,13 +42,13 @@ def simulation_change_strategy_if_fail(sim, n):
     for sim_num in range(1, sim+1):
         strategy = Strategy(n)
 
-        log.set_common_paramerets(sim_num=sim_num)
+        log.add_common_paramerets(sim_num=sim_num)
 
         for trial_num in range(1, n+1):
             current_strategy = strategy.choose_strategy()
             is_success = strategy.try_strategy()
 
-            log.set_parameters(
+            log.add_parameters(
                 trial_num=trial_num,
                 strategy=current_strategy,
                 result=is_success
