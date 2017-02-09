@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from strategy import Strategy
+from strategy.strategy import Strategy
 from utils import logger
 
 
