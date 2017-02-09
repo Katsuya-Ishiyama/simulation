@@ -60,4 +60,9 @@ def simulation_change_strategy_if_fail(sim, n):
 
 def main():
 
-    pass
+    simulate_stick_to_one_strategy(sim=3, n=5)
+    simulation_change_strategy_if_fail(sim=3, n=5)
+
+
+main()
+
