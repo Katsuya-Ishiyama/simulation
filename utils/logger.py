@@ -56,9 +56,9 @@ class SimulationLogger(object):
 
     def logging(self):
 
-        if self.filetype == 'csv':
+        if self._filetype == 'csv':
             self.output_as_csv()
-        elif self.filetype == 'log':
+        elif self._filetype == 'log':
             self.output_as_json()
         else:
             raise TypeError('{0} cannot be handled.'.format(self.logfile))
