@@ -10,43 +10,42 @@ class SimulationLogger(object):
     def __init__(self, file):
 
         if os.path.exists(file):
-            raise ValueError('{0} is already exists.')
+            raise ValueError('{0} is already exists.'.format(file))
 
         self._filetype = check_type_of_log_file(file)
         self.logfile = file
         self.common_parameters = dict(
             simulation_date=datetime.datetime.now(),
-            logged_num=0
+            logged_num=1
         )
         self.parameters = dict()
 
     def add_common_parameters(self, **kwargs):
 
         for k, v in kwargs.items():
-            self.common_parameters.setdefault(k, v)
+            self.common_parameters[k] = v
 
     def add_parameters(self, **kwargs):
 
         for k, v in kwargs.items():
-            self.parameters.setdefault(k, v)
+            self.parameters[k] = v
 
     def append_common_parameters_to_parameters(self):
 
         for k, v in self.common_parameters.items():
-            self.parameters.setdefault(k, v)
+            self.parameters[k] = v
 
     def output_as_csv(self):
 
         self.append_common_parameters_to_parameters()
 
-        if not self.common_parameters['logged_num']:
-            self._csv_header = self.parameters.keys()
-
         with open(self.logfile, 'a') as f:
             writer = csv.writer(f)
-            if not self.common_parameters['logged_num']:
-                writer.writerow(self._csv_header)
-            writer.writerow(self.parameters.values())
+            if self.common_parameters['logged_num'] == 1:
+                _header = self.parameters.keys()
+                self._csv_header = _header
+                writer.writerow(_header)
+            writer.writerow([self.parameters[h] for h in self._csv_header])
 
     def output_as_json(self):
 
@@ -64,6 +63,7 @@ class SimulationLogger(object):
             raise TypeError('{0} cannot be handled.'.format(self.logfile))
 
         self.common_parameters['logged_num'] += 1
+
         self.parameters = dict()  # initialize
 
 
