@@ -9,6 +9,9 @@ class SimulationLogger(object):
 
     def __init__(self, file):
 
+        if re.match(r'.+\.log$', file):
+            raise ValueError('logger does not support ".log".')
+
         if os.path.exists(file):
             raise ValueError('{0} is already exists.'.format(file))
 
@@ -47,6 +50,7 @@ class SimulationLogger(object):
                 writer.writerow(_header)
             writer.writerow([self.parameters[h] for h in self._csv_header])
 
+    # XXX: json cannot handle numpy's numeric type.
     def output_as_json(self):
 
         self.append_common_parameters_to_parameters()
